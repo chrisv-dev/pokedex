@@ -5,6 +5,16 @@
     margin:.3rem;
     padding: .4rem;
 }
+.moves{
+    .version{
+        margin-bottom: 0.7rem;
+    }
+}
+.pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .evolutions{
     .parent{
         display: flex;
