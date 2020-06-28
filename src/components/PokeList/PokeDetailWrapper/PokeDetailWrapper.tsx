@@ -4,7 +4,9 @@ import APIPokemon from '../../../API/APIPokemon';
 import PokeDetail from './PokeDetail/PokeDetail';
 import {TPokeDetail} from './TPokeDetail';
 
-type Props = {}
+type Props = {
+    match:{params:{name:string}}
+}
 type State = {
     details: TPokeDetail,
     loaded: boolean
@@ -22,23 +24,26 @@ class PokeDetailWrapper extends React.Component<Props,State> {
                 abilities: [],
                 stats: [],
                 moves: [],
-                evolutions:{chain:{species:{name:''}, evolves_to:[]}}
+                evolutions: { chain: { species: { name: '' }, evolves_to: [] } },
+                species: {name: '', url: ''}
             },
             loaded: false
         };
     }
 
     async componentDidMount() {
-        let details = await APIPokemon.getOne('https://pokeapi.co/api/v2/pokemon/1/');
-        details.evolutions = await APIPokemon.getEvolutions(1);
+        const name = this.props.match.params.name;
+        let pokemon = await APIPokemon.getOne(name);
+        const species = await APIPokemon.getSpecies(pokemon);
+        pokemon.evolutions = await APIPokemon.getEvolutionChain(species);
         
-        this.setState({details, loaded:true});
+        this.setState({details:pokemon, loaded:true});
     }
 
     render() {
         const { details } = this.state;
         return (
-                this.state.loaded?
+            this.state.loaded?
                 < PokeDetail
                 {...details}
                     />

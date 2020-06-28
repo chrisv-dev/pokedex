@@ -2,9 +2,10 @@ import React from 'react';
 // import styles from './Home.module.css';
 import PokeList from '../PokeList/PokeList';
 import APIPokemon from '../../API/APIPokemon';
+import RequestHandler from '../../API/RequestHandler';
 
 type Props = {
-
+    
 }
 type State = {
     pokeList: APIPokemonT,
@@ -15,6 +16,8 @@ type State = {
 type APIPokemonT = {
     results: { url: string, name: string }[],
     count: number,
+    next: string | null,
+    previous: string | null,
 }
 
 class Home extends React.Component<Props, State> {
@@ -23,7 +26,9 @@ class Home extends React.Component<Props, State> {
         this.state = {
             pokeList: {
                 results: [],
-                count: 0
+                count: 0,
+                next: null,
+                previous: null,
             },
             currentPage: 0,
             itemsPerPage: 10,
@@ -31,28 +36,28 @@ class Home extends React.Component<Props, State> {
     }
 
     async componentDidMount() {
-        await this.changePage();
-        
+        await this.fetchItems(null);
     }
 
-    async changePage(pageNumber: number=0): Promise<void> {
-        const { currentPage } = this.state;
-        let updated:APIPokemonT;
-
-        if (pageNumber > currentPage) {
-            
+    async fetchItems(url: string | null) {
+        let list;
+        if (url !== null) {
+            list = await RequestHandler.get(url);
+        } else {
+            list = await APIPokemon.getList();
         }
-        updated = await APIPokemon.getList(); 
-        this.setState({pokeList:updated});
+        this.setState({ pokeList: list });
     }
-
 
     render() {
+        const { pokeList } = this.state;
         return (
             <div>
                 <h2>Pokedex</h2>
                 <PokeList
                     items={this.state.pokeList.results}
+                    next={() => (this.fetchItems(pokeList.next))}
+                    previous={()=>(this.fetchItems(pokeList.previous))}
                     // onPageChange={this.changePage}
                     currentPage={this.state.currentPage}
                     // itemsPerPage={10}

@@ -11,7 +11,7 @@ function App() {
       <HashRouter>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/:id" component={PokeDetailWrapper} />
+          <Route path="/:name/details/" component={PokeDetailWrapper} />
         </Switch>
       </HashRouter>
     </div>

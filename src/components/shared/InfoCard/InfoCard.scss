@@ -1,0 +1,20 @@
+.info-card{
+    .card-header{
+        cursor: pointer;
+    }
+    .card-body{
+        padding:0;
+        .list-group{
+            flex-wrap: wrap;
+            text-align: left;
+                    
+            .list-group-item{
+                text-align: left;
+                border-top-width: 0.5px;
+                border-bottom-width: 0.5px;
+                border-left-width: 0.5px;
+                border-right-width: 0.5px;
+            }
+        }
+    }
+}

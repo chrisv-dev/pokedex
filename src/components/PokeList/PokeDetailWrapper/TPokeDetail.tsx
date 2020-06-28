@@ -11,5 +11,6 @@ export type TPokeDetail = {
     abilities: { ability: { name: string } }[],
     stats: { base_stat: number, effort: number, stat: { name: string } }[],
     moves: { move: { name: string } }[],
-    evolutions: { chain: Evolution }
+    evolutions: { chain: Evolution },
+    species: {name:string, url:string}
 };
