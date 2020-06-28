@@ -1,18 +1,17 @@
 import React from "react";
-import styles from "./PokeDetail.module.css";
+import styles from "./PokeDetail.module.scss"; 
 import "./PokeDetail.scss";
 import { TPokeDetail, Evolution } from "../TPokeDetail";
 import {
-  Accordion,
-  Card,
   ListGroup,
-  Button,
   Container,
   Row,
   Col,
   Badge,
 } from "react-bootstrap";
 import InfoCard from "../../../shared/InfoCard/InfoCard";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 type Props = TPokeDetail;
 
@@ -30,36 +29,30 @@ class PokeDetail extends React.Component<Props> {
   renderEvolution(name: string, items: Evolution[], count: number) {
     const renderListGroup = () => {
       return (
-        <ListGroup>
-          {items.map((i) => {
-            return (
-              <ListGroup.Item>
-                {this.renderEvolution(i.species.name, i.evolves_to, count + 1)}
-              </ListGroup.Item>
-            );
-          })}
-        </ListGroup>
+          <div className={styles.children}>
+          {
+            items.map((i) => {
+              return (
+                <div className={styles.child}>
+                  {this.renderEvolution(i.species.name, i.evolves_to, count + 1)}
+                </div>
+              );
+            })
+            }
+          </div>        
       );
     };
+    const renderName = (name:string) => (<Badge className={styles.badge} variant="primary">{name}</Badge>)
     if (items.length > 0) {
       return (
-        <Accordion
-          defaultActiveKey={count === 0 ? undefined : count.toString()}
-        >
-          <Card>
-            <Card.Header>
-              <Accordion.Toggle as={Button} eventKey="0">
-                {name}
-              </Accordion.Toggle>
-            </Card.Header>
-            <Accordion.Collapse eventKey="0">
-              <Card.Body>{renderListGroup()}</Card.Body>
-            </Accordion.Collapse>
-          </Card>
-        </Accordion>
-      );
+        <span className={styles.parent}>
+          {renderName(name)}
+          <FontAwesomeIcon className={styles.arrow} icon={faArrowRight} />
+          {renderListGroup()}
+        </span>
+      )
     } else {
-      return name;
+      return renderName(name);
     }
   }
 
@@ -70,7 +63,7 @@ class PokeDetail extends React.Component<Props> {
       <div className="poke-detail">
         <h2>
           {props.name}{" "}
-          <span className={styles.orderNumber}>#{this.props.order}</span>
+          <span title="order number" className={styles.orderNumber}>#{this.props.order}</span>
         </h2>
         {this.props.types.map((t) => (
           <Badge className={styles.badge} variant="primary">
@@ -108,15 +101,13 @@ class PokeDetail extends React.Component<Props> {
                   ))}
                 </ListGroup>
               </InfoCard>
-              <div>
-                Evolutions:
+              <InfoCard className={styles.evolutions} title={"Evolutions"}>
                 {this.renderEvolution(
                   evolution.species.name,
                   evolution.evolves_to,
                   0
                 )}
-                {/* {this.renderEvolutions(this.props.evolutions.chain)} */}
-              </div>
+                </InfoCard>
             </Col>
           </Row>
         </Container>

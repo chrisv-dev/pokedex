@@ -1,0 +1,24 @@
+.orderNumber{
+    color: gray;
+}
+.badge{
+    margin:.3rem;
+    padding: .4rem;
+}
+.evolutions{
+    .parent{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        .arrow{
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+        .children{
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}
