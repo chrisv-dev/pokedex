@@ -1,5 +1,5 @@
 import React from 'react';
-// import styles from './Home.module.css';
+import styles from './Home.module.scss'; 
 import PokeList from '../PokeList/PokeList';
 import APIPokemon from '../../API/APIPokemon';
 import RequestHandler from '../../API/RequestHandler';
@@ -53,7 +53,7 @@ class Home extends React.Component<Props, State> {
         const { pokeList } = this.state;
         return (
             <div>
-                <h2>Pokedex</h2>
+                <h2 className={styles.title}>Pokedex</h2>
                 <PokeList
                     items={this.state.pokeList.results}
                     next={() => (this.fetchItems(pokeList.next))}

@@ -17,7 +17,7 @@ export default class APIPokemon{
     }
 
     static async getList() {
-        const res = await RequestHandler.get(`${this.baseUrl}/pokemon`);
+        const res = await RequestHandler.get(`${this.baseUrl}/pokemon?limit=10`);
         console.log(res);
         return res;
     }
