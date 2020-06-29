@@ -24,13 +24,15 @@ class PokeList extends React.Component<Props> {
             <ListGroup>
               {this.props.items.map((i, idx) => {
                 return (
+                  <Link data-testid="item" to={{
+                    pathname: `/${i.name}/details`,
+                  }}>
                   <ListGroup.Item action={true} variant="primary" key={idx}>
-                    <Link data-testid="item" to={{
-                      pathname: `/${i.name}/details`,
-                    }}>
+                    
                       {i.name}
+                    
+                    </ListGroup.Item>
                     </Link>
-                  </ListGroup.Item>
                 );
               })}
             </ListGroup>
