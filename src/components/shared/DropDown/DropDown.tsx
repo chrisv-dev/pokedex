@@ -3,9 +3,10 @@ import React from "react";
 // import { Dropdown, FormControl } from "react-bootstrap";
 
 type Props = {
-  options: string[];
-  title: string;
-  onChange(option:string):void;
+  options: string[],
+  title: string,
+  onChange(option: string): void,
+  'data-testid'?: string
 };
 
 class DropDown extends React.Component<Props> {
@@ -17,6 +18,7 @@ class DropDown extends React.Component<Props> {
     render() {
         return(
             <select
+                data-testid={this.props['data-testid']}
                 style={{
                     border: '0',
                     padding: '.5rem',
@@ -26,9 +28,9 @@ class DropDown extends React.Component<Props> {
                 onChange={(e) => { this.props.onChange(e.target.value); }}
             >
                 {
-                    this.props.options.map((option) => {
+                    this.props.options.map((option, index) => {
                         return (
-                            <option>{option}</option>
+                            <option key={index}>{option}</option>
                         )
                     })
                 }

@@ -7,7 +7,7 @@ import PokeDetailWrapper from './components/PokeList/PokeDetailWrapper/PokeDetai
  
 function App() {
   return (
-    <div className="App">
+    <div className="App" data-testid="app">
       <HashRouter>
         <Switch>
           <Route exact path="/" component={Home} />

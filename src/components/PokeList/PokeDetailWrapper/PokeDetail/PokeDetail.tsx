@@ -2,24 +2,19 @@ import React from "react";
 import styles from "./PokeDetail.module.scss"; 
 import "./PokeDetail.scss";
 import { TPokeDetail, Evolution } from "../TPokeDetail";
-import {
-  ListGroup,
-  Container,
-  Row,
-  Col,
-  Badge,
-  Pagination,
-} from "react-bootstrap";
+import { ListGroup, Container, Row, Col, Badge, Pagination } from "react-bootstrap";
 import InfoCard from "../../../shared/InfoCard/InfoCard";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import _ from 'lodash';
 import DropDown from '../../../shared/DropDown/DropDown';
 
+// Detail View for one pokemon
+
 type Props = TPokeDetail;
 type State = {
-  selectedVersion: null | string,
-  versions: string[],
+  selectedVersion: null | string, // limits showingMoves to this version
+  versions: string[], // unique list of versions (that have moves for this pokemon)
   showingMoves: TPokeDetail['moves'],
   moveMethods: string[],
   move: {itemsPerPage: number, currentPage: number},
@@ -37,7 +32,6 @@ class PokeDetail extends React.Component<Props, State> {
         itemsPerPage: 5,
         currentPage: 0,
       },
-      
     };
   }
 
@@ -65,7 +59,8 @@ class PokeDetail extends React.Component<Props, State> {
           </div>
       );
     };
-    const renderName = (name:string) => (<Badge className={styles.badge} variant="primary">{name}</Badge>)
+    const renderName = (name: string) => (<Badge data-testid="evolution" className={styles.badge} variant="primary">{name}</Badge>)
+    
     if (items.length > 0) {
       return (
         <span className={styles.parent}>
@@ -105,12 +100,16 @@ class PokeDetail extends React.Component<Props, State> {
     return _.uniq(rv);
   }
 
-  setVersion(version: string) {
+  setVersion(version: string) { // sets version and limits shown moves to this version
     const showingMoves = this.getMovesForVersion(this.props.moves, version);
-    this.setState({ selectedVersion: version, showingMoves });
+    this.setState({
+      selectedVersion: version,
+      showingMoves,
+      move: { currentPage: 0, itemsPerPage: this.state.move.itemsPerPage }
+    });
   }
 
-  getMovesForVersion(moves: TPokeDetail['moves'], version: string) {  // .
+  getMovesForVersion(moves: TPokeDetail['moves'], version: string) {
     let versionMoves = [];
     for (let a = 0; a < moves.length; a++){
       const move = moves[a];
@@ -123,13 +122,13 @@ class PokeDetail extends React.Component<Props, State> {
       }
     }
     return versionMoves;
-  }  
+  }
 
   render() {
     const props = this.props;
     const evolution = this.props.evolutions.chain;
     return (
-      <div className="poke-detail">
+      <div className="poke-detail" data-testid="poke-detail">
         <h2>
           {props.name}{" "}
           <span title="order number" className={styles.orderNumber}>#{this.props.order}</span>
@@ -145,7 +144,7 @@ class PokeDetail extends React.Component<Props, State> {
               {Object.keys(this.props.sprites).map((imgKey, index) => {
                 return <img key={index} src={this.props.sprites[imgKey]} alt="pokemon" />;
               })}
-
+  
               <InfoCard title={"Abilities"}>
                 <ListGroup>
                   {this.props.abilities.map((ability, index) => (
@@ -163,51 +162,57 @@ class PokeDetail extends React.Component<Props, State> {
                   ))}
                 </ListGroup>
               </InfoCard>
-              <InfoCard className={styles.moves} title={"Moves"}>
+
+              <InfoCard className="moves" title={"Moves"}>
                 <div className={styles.version}>
-                  Version: <DropDown title="Version" options={this.state.versions} onChange={(option) => { this.setVersion(option) }} />
+                  Version: <DropDown
+                    data-testid="select"
+                    title="Version"
+                    options={this.state.versions}
+                    onChange={(option) => { this.setVersion(option) }} />
                 </div>
-              {/* {
-                  this.state.versions.map((v, index) =>
-                    <Badge
-                      style={{cursor:'pointer'}}
-                      className={styles.badge}
-                      variant={index === this.state.selectedVersion ? 'primary' : 'secondary'}
-                      onClick={() => { this.setVersion(index, this.state.versions) }}>
-                      {v}
-                    </Badge>
-                  )
-                } */}
-                <div
-                  // style={{ display: 'flex', flexDirection: 'row' }}
-                >
-                <ListGroup>
+                <div>
+                <ListGroup data-testid="moves">
                     {this.state.showingMoves
                       .slice(this.state.move.currentPage * this.state.move.itemsPerPage,
                         this.state.move.currentPage * this.state.move.itemsPerPage + this.state.move.itemsPerPage)
                       .map((move, index) => (
-                    <ListGroup.Item key={index}>{`${move.move.name}`}</ListGroup.Item>
+                    <ListGroup.Item data-testid="move" key={index}>{`${move.move.name}`}</ListGroup.Item>
                   ))}
                   </ListGroup>
                   <Pagination className={styles.pagination}>
                     <Pagination.Prev
                       disabled={this.state.move.currentPage === 0}
-                      onClick={() => { this.setState((s) => { s.move.currentPage -= 1; return s; }) }}
+                      onClick={() => {
+                        this.setState((s) => {
+                          let rv = _.cloneDeep(s);
+                          rv.move.currentPage -= 1;
+                          return rv;
+                        })
+                      }}
                     />
                     <Pagination.Next
-                      disabled={this.state.move.currentPage * this.state.move.itemsPerPage >= this.state.showingMoves.length}
-                      onClick={() => { this.setState((s) => { s.move.currentPage += 1; return s; }) }}
+                      data-testid="next"
+                      disabled={this.state.move.currentPage * (this.state.move.itemsPerPage+1) >= this.state.showingMoves.length}
+                      onClick={() => {
+                        this.setState((s) => {
+                          let rv = _.cloneDeep(s);
+                          rv.move.currentPage += 1;
+                          return rv;
+                        })
+                      }}
                     />
                   </Pagination>
                 </div>
               </InfoCard>
+
               <InfoCard className={styles.evolutions} title={"Evolutions"}>
                 {this.renderEvolution(
                   evolution.species.name,
                   evolution.evolves_to,
                   0
                 )}
-                </InfoCard>
+              </InfoCard>
             </Col>
           </Row>
         </Container>
