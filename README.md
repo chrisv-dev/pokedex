@@ -2,7 +2,7 @@
 
 React based Pokedex web application (using [pokeapi.co](https://pokeapi.co/) api).
 
-You can see a **demo** [here](http://vps2.twrdy.eu/pokedex/)
+You can see a **demo** [here](http://vps2.twrdy.eu/pokedex2/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

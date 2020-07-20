@@ -1,0 +1,20 @@
+.poke-list {
+  .list-group-item,
+  .list-group-item:hover,
+  .list-group-item:active,
+  .list-group-item:focus {
+    background-color: black;
+    border-color: gray;
+    color: rgba($color: #fff, $alpha: 0.7);
+    opacity: 0.5;
+    text-decoration-line: none;
+    text-decoration-style: none;
+  }
+  .list-group-item:hover,
+  .list-group-item:active,
+  .list-group-item:focus {
+    border-color: #007bff;
+    color: rgba($color: #fff, $alpha: 0.8);
+    opacity: 0.7;
+  }
+}

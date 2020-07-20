@@ -1,5 +1,6 @@
 import React from "react";
-import styles from "./PokeList.module.css";
+import styles from "./PokeList.module.scss";
+import "./PokeList.scss";
 import { Container, Row, Col, ListGroup, Pagination } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -18,6 +19,7 @@ class PokeList extends React.Component<Props> {
 
   render() {
     return (
+      <div className="poke-list">
       <Container data-testid="poke-list">
         <Row>
           <Col>
@@ -27,15 +29,15 @@ class PokeList extends React.Component<Props> {
                   <Link data-testid="item" to={{
                     pathname: `/${i.name}/details`,
                   }}>
-                  <ListGroup.Item action={true} variant="primary" key={idx}>
-                    
+                    <div className={styles.listGroup}>
+                  <ListGroup.Item action={true} key={idx}>
                       {i.name}
-                    
-                    </ListGroup.Item>
+                      </ListGroup.Item>
+                      </div>
                     </Link>
                 );
               })}
-            </ListGroup>
+                </ListGroup>
           </Col>
         </Row>
         <Row>
@@ -46,7 +48,8 @@ class PokeList extends React.Component<Props> {
             </Pagination>
           </Col>
         </Row>
-      </Container>
+        </Container>
+        </div>
     );
   }
 }

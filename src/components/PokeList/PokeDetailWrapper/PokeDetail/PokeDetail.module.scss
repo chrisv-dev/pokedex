@@ -3,32 +3,14 @@
 }
 .badge{
     margin:.3rem;
-    padding: .4rem;
-}
-.moves{
-    .version{
-        margin-bottom: 0.7rem;
-    }
+    padding: .6rem;
 }
 .pagination{
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 1rem;
 }
-.evolutions{
-    .parent{
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-
-        .arrow{
-            margin-left: 1rem;
-            margin-right: 1rem;
-        }
-        .children{
-            display: flex;
-            flex-direction: column;
-        }
-    }
+.types{
+    margin-bottom: 1.4rem;
 }

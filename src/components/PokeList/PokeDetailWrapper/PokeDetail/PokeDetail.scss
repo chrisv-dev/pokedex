@@ -1,12 +1,49 @@
-.poke-detail{
-    .stats{
-        .list-group{
-            height: 9.3rem;
-        }
+.poke-detail {
+  .images {
+    background-color: black;
+    opacity: 0.7;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+
+    .carousel-item{
+      margin-bottom: 2rem;
     }
-    .moves{
-        .list-group{
-            min-height: 245px;
-        }
+  }
+  .stats {
+    .list-group {
+      height: 9.3rem;
     }
+  }
+  .moves {
+    .card-body {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+    .list-group {
+      min-height: 245px;
+    }
+    .version {
+      margin-bottom: 1rem;
+    }
+  }
+  .evolutions {
+    .card-body {
+      margin: 2rem;
+    }
+    .parent {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      .arrow {
+        margin-left: 0.3rem;
+        margin-right: 0.3rem;
+      }
+      .children {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
 }
