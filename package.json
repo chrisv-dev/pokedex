@@ -19,7 +19,7 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/testing-library__dom": "^7.5.0",
     "bootstrap": "^4.5.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
